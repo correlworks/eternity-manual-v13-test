@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bebeswan ETERNITY - 조끼 아기띠의 새로운 기준</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ivory: #FFFFFF;
+            --warm-brown: #8A6B57;
+            --deep-brown: #5C4033;
+            --accent-coral: #E8A598;
+            --soft-pink: #F5DED8;
+            --text-dark: #2C2418;
+            --text-light: #6B5D4F;
+            --gradient-warm: linear-gradient(135deg, #F5DED8 0%, #E8D4BA 50%, #D4C4B0 100%);
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--ivory);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            background: var(--ivory);
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 5vh;
+        }
+
+        .video-container video {
+            width: 70%;
+            max-width: 600px;
+            height: auto;
+            max-height: 65vh;
+            object-fit: contain;
+        }
+
+        .video-overlay {
+            display: none;
+        }
+        
+        /* Decorative elements for video section */
+        .video-decoration {
+            display: none;
+        }
+        
+        .video-decoration.top-right {
+            display: none;
+        }
+        
+        .video-decoration.bottom-left {
+            display: none;
+        }
+
+        /* Scroll Content */
+        .scroll-content {
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .scroll-spacer {
+            height: 500vh;
+            pointer-events: none;
+        }
+
+        /* Section Styles */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 5%;
+            pointer-events: auto;
+        }
+
+        .section-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Hero Section - 하단 배치 */
+        .hero-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 40px 5% 80px;
+            background: linear-gradient(
+                to top,
+                var(--ivory) 0%,
+                rgba(255, 255, 255, 0.98) 40%,
+                rgba(255, 255, 255, 0.85) 70%,
+                rgba(255, 255, 255, 0) 100%
+            );
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--deep-brown);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            letter-spacing: 10px;
+            margin-bottom: 15px;
+            color: var(--warm-brown);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 8vw, 80px);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            color: var(--deep-brown);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(15px, 1.8vw, 18px);
+            font-weight: 400;
+            color: var(--text-light);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 25;
+            text-align: center;
+            color: var(--warm-brown);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Scroll Messages */
+        .scroll-messages {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 15;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-message {
+            position: absolute;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+
+        .scroll-message.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .scroll-message p {
+            font-size: clamp(14px, 2vw, 18px);
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .scroll-message .highlight {
+            color: var(--warm-brown);
+            font-weight: 600;
+        }
+
+        .scroll-message .big-number {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(60px, 12vw, 120px);
+            font-weight: 700;
+            color: var(--accent-coral);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .scroll-message .unit {
+            font-size: clamp(24px, 4vw, 36px);
+            color: var(--warm-brown);
+        }
+
+        .scroll-text {
+            font-size: 11px;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .scroll-arrow {
+            width: 22px;
+            height: 36px;
+            border: 2px solid var(--warm-brown);
+            border-radius: 11px;
+            margin: 0 auto;
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .scroll-arrow::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 6px;
+            background: var(--warm-brown);
+            border-radius: 2px;
+            animation: scrollBounce 1.5s infinite;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { top: 8px; opacity: 1; }
+            50% { top: 20px; opacity: 0.3; }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-coral);
+            z-index: 100;
+            transition: width 0.1s ease;
+        }
+
+        /* Info Sections */
+        .info-section {
+            background: var(--ivory);
+            position: relative;
+            z-index: 30;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 10px 60px rgba(138, 107, 87, 0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(138, 107, 87, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 80px rgba(138, 107, 87, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-warm);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 36px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--deep-brown);
+        }
+
+        .feature-desc {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--deep-brown);
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Pressure Test Section */
+        .pressure-section {
+            background: linear-gradient(180deg, var(--ivory) 0%, #F5F0EB 100%);
+            padding: 120px 5%;
+        }
+
+        .pressure-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pressure-item {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pressure-item.highlight {
+            background: var(--deep-brown);
+            color: white;
+        }
+
+        .pressure-item.highlight .pressure-label {
+            color: var(--accent-coral);
+        }
+
+        .pressure-item.highlight .pressure-value {
+            color: white;
+        }
+
+        .pressure-label {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .pressure-type {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .pressure-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--deep-brown);
+        }
+
+        .pressure-unit {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .pressure-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--accent-coral);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            transform: rotate(15deg);
+        }
+
+        /* Specs Section */
+        .specs-section {
+            background: var(--deep-brown);
+            color: white;
+            padding: 120px 5%;
+        }
+
+        .specs-section .section-title {
+            color: white;
+        }
+
+        .specs-section .section-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .spec-item {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .spec-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .spec-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--accent-coral);
+            margin-bottom: 10px;
+        }
+
+        .spec-label {
+            font-size: 14px;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient-warm);
+            padding: 120px 5%;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: 20px;
+        }
+
+        .cta-text {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--deep-brown);
+            color: white;
+            padding: 20px 60px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(92, 64, 51, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: #2C2418;
+            color: white;
+            padding: 80px 5% 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.5;
+        }
+
+        /* Loading */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--ivory);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--deep-brown);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--soft-pink);
+            border-top-color: var(--warm-brown);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-brand {
+                font-size: 14px;
+                letter-spacing: 4px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pressure-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div style="text-align: center;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">ETERNITY</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer">
+        <div class="video-decoration top-right"></div>
+        <div class="video-decoration bottom-left"></div>
+        <video id="scrollVideo" muted playsinline preload="auto">
+            <source src="https://fjkgfxfisgxtdvdvcwhc.supabase.co/storage/v1/object/public/360_white/eternity_360_rotation.webm" type="video/webm">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section" id="heroSection">
+        <div class="hero-content">
+            <p class="hero-brand">bebeswan</p>
+            <h1 class="hero-title">ETERNITY</h1>
+            <p class="hero-subtitle">
+                과학적으로 검증된 압력 분산 기술로<br>
+                부모와 아기 모두에게 편안함을 선사합니다
+            </p>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <p class="scroll-text">Scroll to Explore</p>
+        <div class="scroll-arrow"></div>
+    </div>
+
+    <!-- Scroll Messages -->
+    <div class="scroll-messages" id="scrollMessages">
+        <div class="scroll-message" data-start="0.12" data-end="0.26">
+            <h2>360° 완벽한 디자인</h2>
+            <p>어느 각도에서 보아도 아름다운<br>프리미엄 조끼 아기띠</p>
+        </div>
+        <div class="scroll-message" data-start="0.30" data-end="0.44">
+            <h2>공인인증 압력 테스트</h2>
+            <p>타 제품 대비 <span class="highlight">최대 47% 압력 감소</span><br>과학적으로 검증된 편안함</p>
+        </div>
+        <div class="scroll-message" data-start="0.48" data-end="0.62">
+            <h2>4가지 착용 방식</h2>
+            <p>앞보기 · 뒤보기 · 힙시트 · 업기<br>상황에 맞는 다양한 활용</p>
+        </div>
+        <div class="scroll-message" data-start="0.66" data-end="0.80">
+            <h2>프리미엄 메시 소재</h2>
+            <p>통기성이 뛰어난 3D 에어메시로<br>사계절 쾌적한 착용감</p>
+        </div>
+        <div class="scroll-message" data-start="0.84" data-end="0.98">
+            <h2>ETERNITY</h2>
+            <p>부모와 아기 모두를 위한<br><span class="highlight">편안함의 새로운 기준</span></p>
+        </div>
+    </div>
+
+    <!-- Scroll Content -->
+    <div class="scroll-content">
+        <div class="scroll-spacer"></div>
+    </div>
+
+    <!-- Info Sections -->
+    <div class="info-section">
+        <section class="section" style="background: var(--ivory); padding: 120px 5%;">
+            <div class="section-content">
+                <h2 class="section-title">왜 ETERNITY인가요?</h2>
+                <p class="section-subtitle">
+                    공인인증기관의 정밀한 압력 시험을 통해 입증된<br>
+                    베베스완만의 혁신적인 기술
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">압력 분산 기술</h3>
+                        <p class="feature-desc">
+                            어깨와 허리에 가해지는 압력을 고르게 분산시켜
+                            장시간 착용해도 편안함을 유지합니다
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👶</div>
+                        <h3 class="feature-title">인체공학적 설계</h3>
+                        <p class="feature-desc">
+                            아기의 자연스러운 M자 자세를 유지하며
+                            건강한 고관절 발달을 돕습니다
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h3 class="feature-title">다기능 디자인</h3>
+                        <p class="feature-desc">
+                            모유수유, 슬리핑후드, 3단계 목받침 등
+                            다양한 상황에 맞는 기능을 제공합니다
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pressure Test Section -->
+        <section class="pressure-section">
+            <div class="section-content">
+                <h2 class="section-title">공인인증 압력 시험 결과</h2>
+                <p class="section-subtitle">
+                    압력 분산의 차이가 착용감의 차이를 만듭니다
+                </p>
+
+                <div class="pressure-comparison">
+                    <div class="pressure-item">
+                        <span class="pressure-label">일반형</span>
+                        <div class="pressure-type">후면 압력</div>
+                        <div class="pressure-value">150<span class="pressure-unit">kPa</span></div>
+                    </div>
+                    <div class="pressure-item">
+                        <span class="pressure-label">힙시트형</span>
+                        <div class="pressure-type">후면 압력</div>
+                        <div class="pressure-value">120<span class="pressure-unit">kPa</span></div>
+                    </div>
+                    <div class="pressure-item highlight">
+                        <span class="pressure-badge">BEST</span>
+                        <span class="pressure-label">베베스완 ETERNITY</span>
+                        <div class="pressure-type">후면 압력</div>
+                        <div class="pressure-value">80<span class="pressure-unit">kPa</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Specs Section -->
+        <section class="specs-section">
+            <div class="section-content">
+                <h2 class="section-title">제품 상세</h2>
+                <p class="section-subtitle">
+                    신생아부터 48개월까지, 모든 순간을 함께합니다
+                </p>
+
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-value">0~48</div>
+                        <div class="spec-label">사용 개월수</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-value">20kg</div>
+                        <div class="spec-label">최대 하중</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-value">4</div>
+                        <div class="spec-label">착용 방식</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-value">1년</div>
+                        <div class="spec-label">품질 보증</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Detail -->
+        <section class="section" style="background: var(--ivory); padding: 120px 5%;">
+            <div class="section-content">
+                <h2 class="section-title">모든 기능, 하나에</h2>
+                <p class="section-subtitle">
+                    ETERNITY 하나로 다양한 상황에 대응하세요
+                </p>
+
+                <div class="feature-grid" style="margin-top: 60px;">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤱</div>
+                        <h3 class="feature-title">모유수유 기능</h3>
+                        <p class="feature-desc">
+                            스테이락 지퍼를 활용하면 아기띠를 벗지 않고도
+                            편안하게 수유가 가능합니다
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">😴</div>
+                        <h3 class="feature-title">슬리핑 후드</h3>
+                        <p class="feature-desc">
+                            아기가 잠들었을 때 머리를 안전하게
+                            받쳐주는 슬리핑 후드 제공
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📐</div>
+                        <h3 class="feature-title">3단계 목받침</h3>
+                        <p class="feature-desc">
+                            아기의 성장에 맞춰 목받침 높이를
+                            3단계로 조절할 수 있습니다
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎒</div>
+                        <h3 class="feature-title">백지퍼 시스템</h3>
+                        <p class="feature-desc">
+                            아기띠를 입고 벗을 때, 업고 내릴 때
+                            편리하게 사용할 수 있습니다
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👣</div>
+                        <h3 class="feature-title">부스터 기능</h3>
+                        <p class="feature-desc">
+                            아기의 체형에 맞게 좌판 높이를
+                            조절하여 최적의 자세 유지
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🍼</div>
+                        <h3 class="feature-title">신생아 사용</h3>
+                        <p class="feature-desc">
+                            별도의 인서트 없이 신생아부터
+                            바로 사용 가능합니다
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">ETERNITY와 함께하는<br>특별한 육아</h2>
+            <p class="cta-text">
+                과학적으로 검증된 기술력과 세심한 디테일이 만나<br>
+                부모와 아기 모두를 위한 최고의 선택이 됩니다
+            </p>
+            <a href="index.html" class="cta-button">사용 설명서 보기</a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-brand">bebeswan</div>
+                    <p class="footer-desc">
+                        베베스완은 고객님의 만족을 실현하기 위해<br>
+                        소비자분쟁 정책을 준수합니다.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-title">PRODUCT</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">ETERNITY 조끼 아기띠</a></li>
+                        <li><a href="#">V5 아기띠</a></li>
+                        <li><a href="#">액세서리</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">SUPPORT</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">사용 설명서</a></li>
+                        <li><a href="#">자주 묻는 질문</a></li>
+                        <li><a href="#">품질 보증</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">CONTACT</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">고객센터</a></li>
+                        <li><a href="#">이메일 문의</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2025 bebeswan. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // Scroll-based Video Frame Controller
+        // ============================================
+        
+        const video = document.getElementById('scrollVideo');
+        const scrollSpacer = document.querySelector('.scroll-spacer');
+        const progressBar = document.getElementById('progressBar');
+        const heroSection = document.getElementById('heroSection');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const scrollMessages = document.querySelectorAll('.scroll-message');
+        
+        // Target time variable - updated by scroll event
+        let targetTime = 0;
+        
+        // Video ready state
+        let videoReady = false;
+        let videoDuration = 0;
+        
+        // ============================================
+        // Event Decoupling: Scroll only updates targetTime
+        // ============================================
+        function handleScroll() {
+            const scrollTop = window.scrollY;
+            const maxScroll = scrollSpacer.offsetHeight - window.innerHeight;
+            const scrollProgress = Math.min(Math.max(scrollTop / maxScroll, 0), 1);
+            
+            // Update progress bar
+            progressBar.style.width = `${scrollProgress * 100}%`;
+            
+            // Update target time (NOT directly video.currentTime)
+            if (videoReady && videoDuration > 0) {
+                targetTime = scrollProgress * videoDuration;
+            }
+            
+            // Update hero section opacity - fade out faster
+            const heroOpacity = 1 - (scrollProgress * 8);
+            heroSection.style.opacity = Math.max(0, heroOpacity);
+            
+            // Hide scroll indicator after scrolling
+            if (scrollProgress > 0.03) {
+                scrollIndicator.classList.add('hidden');
+            } else {
+                scrollIndicator.classList.remove('hidden');
+            }
+            
+            // Update scroll messages
+            scrollMessages.forEach(message => {
+                const start = parseFloat(message.dataset.start);
+                const end = parseFloat(message.dataset.end);
+                
+                if (scrollProgress >= start && scrollProgress <= end) {
+                    message.classList.add('active');
+                } else {
+                    message.classList.remove('active');
+                }
+            });
+        }
+        
+        // ============================================
+        // Render Loop: Updates video.currentTime with seeking guard
+        // ============================================
+        function renderLoop() {
+            // Seeking Guard: Only update if video is not currently seeking
+            if (videoReady && !video.seeking) {
+                const currentTime = video.currentTime;
+                const timeDiff = Math.abs(targetTime - currentTime);
+                
+                // Only update if there's a significant difference
+                if (timeDiff > 0.01) {
+                    video.currentTime = targetTime;
+                }
+            }
+            
+            // Continue the render loop
+            requestAnimationFrame(renderLoop);
+        }
+        
+        // ============================================
+        // Video Initialization
+        // ============================================
+        function initVideo() {
+            video.addEventListener('loadedmetadata', () => {
+                videoDuration = video.duration;
+                videoReady = true;
+                
+                // Hide loading screen
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                }, 500);
+                
+                // Start render loop
+                requestAnimationFrame(renderLoop);
+            });
+            
+            video.addEventListener('error', (e) => {
+                console.error('Video loading error:', e);
+                loadingScreen.innerHTML = `
+                    <div style="text-align: center; color: var(--deep-brown);">
+                        <p style="font-size: 18px; margin-bottom: 10px;">비디오를 불러오는 중...</p>
+                        <p style="font-size: 14px; opacity: 0.7;">잠시만 기다려주세요</p>
+                    </div>
+                `;
+            });
+            
+            // Force video load
+            video.load();
+        }
+        
+        // ============================================
+        // Event Listeners
+        // ============================================
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initVideo();
+            handleScroll(); // Initial call
+        });
+        
+        // Fallback: If video takes too long, hide loading anyway
+        setTimeout(() => {
+            if (!videoReady) {
+                loadingScreen.classList.add('hidden');
+                videoReady = true;
+                videoDuration = 5; // Assume 5 seconds as fallback
+                requestAnimationFrame(renderLoop);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
+
